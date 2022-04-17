@@ -5,10 +5,13 @@ const defaultUrl = 'https://swapi.dev/api/people'
 export interface Person {
   name: string
   height: string
+  mass: string
   birth_year: string
   gender: string
   homeworld: string
   url: string
+  created: string
+  edited: string
 }
 interface FindResult {
   next: string

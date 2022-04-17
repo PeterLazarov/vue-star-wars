@@ -5,7 +5,7 @@ import {
   Person,
 } from '@/api'
 import { computed, ComputedRef } from 'vue'
-
+import { format } from 'date-fns'
 interface PeopleTableData {
   people: ComputedRef<Person[]>
   planets: ComputedRef<Planet[]>
@@ -29,9 +29,21 @@ export const useEnrichedPeopleTableData = (): PeopleTableData => {
 
   const formatPerson = (person: Person) => ({
     ...person,
-    homeworld: planetDict.value.hasOwnProperty(person.homeworld)
-      ? planetDict.value[person.homeworld].name
-      : '',
+    created:
+      person.created === 'unknown'
+        ? '-'
+        : format(new Date(person.created), 'dd-MM-yyyy'),
+    edited:
+      person.edited === 'unknown'
+        ? '-'
+        : format(new Date(person.edited), 'dd-MM-yyyy'),
+    height: Number.isNaN(Number(person.height)) ? '-' : person.height,
+    mass: Number.isNaN(Number(person.mass)) ? '-' : person.mass,
+    homeworld:
+      person.homeworld === 'unknown' ||
+      !planetDict.value.hasOwnProperty(person.homeworld)
+        ? '-'
+        : planetDict.value[person.homeworld].name,
   })
 
   const formattedPeople = computed(() => {
