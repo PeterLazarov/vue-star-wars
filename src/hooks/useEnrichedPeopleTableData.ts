@@ -14,17 +14,14 @@ export const useEnrichedPeopleTableData = (): PeopleTableData => {
 
   const { data: peopleData } = usePeopleFindInifite()
 
-  const flatPlanets = computed(() => {
+  const planetDict = computed(() => {
     return planetData.value
-      ? planetData.value.pages.reduce((arr, page) => {
-          arr.push(...page.results)
-          return arr
-        }, [] as Planet[])
-      : []
+      ? planetData.value.pages.reduce((dict, page) => {
+          Object.assign(dict, ...page.results.map(p => ({ [p.url]: p })))
+          return dict
+        }, {} as Record<string, Planet>)
+      : {}
   })
-  const planetDict = computed<Record<string, Planet>>(() =>
-    Object.assign({}, ...flatPlanets.value.map(p => ({ [p.url]: p }))),
-  )
 
   const formatPerson = (person: Person): PersonTableModel => ({
     ...person,
