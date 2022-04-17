@@ -40,7 +40,7 @@ export const usePeopleFindInifite = () => {
       }
     },
     refetchOnReconnect: false,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   })
   return result
 }

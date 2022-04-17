@@ -58,12 +58,9 @@ export default defineComponent({
     DownOutlined,
   },
   setup() {
-    const {
-      people,
-      planets,
-    } = useEnrichedPeopleTableData()
+    const { people, planets } = useEnrichedPeopleTableData()
 
-// todo: other stuff wtf
+    // todo: other stuff wtf
     return {
       people,
       planets,

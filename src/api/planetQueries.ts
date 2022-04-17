@@ -37,7 +37,7 @@ export const usePlanetFindInifite = () => {
       }
     },
     refetchOnReconnect: false,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   })
   return result
 }
