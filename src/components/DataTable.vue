@@ -99,15 +99,17 @@ const columns = [
         }, 100)
       }
     },
+    multiple: 3,
   },
   {
     title: 'Height',
     dataIndex: 'height',
     key: 'height',
-    sorter:  {
+    sorter: {
       compare: (a: Person, b: Person) =>
         (isNaN(Number(a.height)) ? -Infinity : Number(a.height)) -
         (isNaN(Number(b.height)) ? -Infinity : Number(b.height)),
+      multiple: 5,
     },
   },
   {
@@ -118,6 +120,7 @@ const columns = [
       compare: (a: Person, b: Person) =>
         (isNaN(Number(a.mass)) ? -Infinity : Number(a.mass)) -
         (isNaN(Number(b.mass)) ? -Infinity : Number(b.mass)),
+      multiple: 4,
     },
   },
   {
@@ -127,6 +130,7 @@ const columns = [
     sorter: {
       compare: (a: Person, b: Person) =>
         compareAsc(new Date(a.created), new Date(b.created)),
+      multiple: 1,
     },
   },
   {
@@ -136,6 +140,7 @@ const columns = [
     sorter: {
       compare: (a: Person, b: Person) =>
         compareAsc(new Date(a.edited), new Date(b.edited)),
+      multiple: 2,
     },
   },
   {
@@ -144,6 +149,7 @@ const columns = [
     key: 'homeworld',
     sorter: {
       compare: (a: Person, b: Person) => a.homeworld.localeCompare(b.homeworld),
+      multiple: 6,
     },
     customFilterDropdown: true,
     onFilter: (value: string, record: Person) =>
