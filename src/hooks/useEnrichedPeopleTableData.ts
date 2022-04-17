@@ -1,14 +1,13 @@
 import {
   usePlanetFindInifite,
   usePeopleFindInifite,
-  Planet,
-  Person,
 } from '@/api'
 import { computed, ComputedRef } from 'vue'
 import { format } from 'date-fns'
+import { Person, PersonTableModel, Planet } from '@/models'
 interface PeopleTableData {
-  people: ComputedRef<Person[]>
-  planets: ComputedRef<Planet[]>
+  people: ComputedRef<PersonTableModel[]>
+  planetDict: ComputedRef<Record<string,Planet>>
 }
 export const useEnrichedPeopleTableData = (): PeopleTableData => {
   const { data: planetData } = usePlanetFindInifite()
@@ -27,7 +26,7 @@ export const useEnrichedPeopleTableData = (): PeopleTableData => {
     Object.assign({}, ...flatPlanets.value.map(p => ({ [p.url]: p }))),
   )
 
-  const formatPerson = (person: Person) => ({
+  const formatPerson = (person: Person): PersonTableModel => ({
     ...person,
     created:
       person.created === 'unknown'
@@ -39,7 +38,7 @@ export const useEnrichedPeopleTableData = (): PeopleTableData => {
         : format(new Date(person.edited), 'dd-MM-yyyy'),
     height: Number.isNaN(Number(person.height)) ? '-' : person.height,
     mass: Number.isNaN(Number(person.mass)) ? '-' : person.mass,
-    homeworld:
+    homeworldName:
       person.homeworld === 'unknown' ||
       !planetDict.value.hasOwnProperty(person.homeworld)
         ? '-'
@@ -57,6 +56,6 @@ export const useEnrichedPeopleTableData = (): PeopleTableData => {
 
   return {
     people: formattedPeople,
-    planets: flatPlanets,
+    planetDict,
   }
 }

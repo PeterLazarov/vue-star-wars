@@ -62,10 +62,13 @@
         {{ text }}
       </template>
     </template>
-    <template #expandedRowRender>
+    <template #customFilterIcon="{ filtered }">
+      <search-outlined :style="{ color: filtered ? '#108ee9' : undefined }" />
+    </template>
+    <template #expandedRowRender="{ record }">
       <a-table
         :columns="innerColumns"
-        :data-source="innerData"
+        :data-source="[planetDict[record.homeworld]]"
         :pagination="false"
       >
       </a-table>
@@ -76,7 +79,7 @@
 import { DownOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import { defineComponent, reactive, ref } from 'vue'
 import { useEnrichedPeopleTableData } from '@/hooks'
-import { Person } from '@/api'
+import { PersonTableModel } from '@/models'
 import { compareAsc } from 'date-fns'
 
 const searchInput = ref()
@@ -87,10 +90,10 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     sorter: {
-      compare: (a: Person, b: Person) => a.name.localeCompare(b.name),
+      compare: (a: PersonTableModel, b: PersonTableModel) => a.name.localeCompare(b.name),
     },
     customFilterDropdown: true,
-    onFilter: (value: string, record: Person) =>
+    onFilter: (value: string, record: PersonTableModel) =>
       record.name.toString().toLowerCase().includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: (visible: boolean) => {
       if (visible) {
@@ -106,7 +109,7 @@ const columns = [
     dataIndex: 'height',
     key: 'height',
     sorter: {
-      compare: (a: Person, b: Person) =>
+      compare: (a: PersonTableModel, b: PersonTableModel) =>
         (isNaN(Number(a.height)) ? -Infinity : Number(a.height)) -
         (isNaN(Number(b.height)) ? -Infinity : Number(b.height)),
       multiple: 5,
@@ -117,7 +120,7 @@ const columns = [
     dataIndex: 'mass',
     key: 'mass',
     sorter: {
-      compare: (a: Person, b: Person) =>
+      compare: (a: PersonTableModel, b: PersonTableModel) =>
         (isNaN(Number(a.mass)) ? -Infinity : Number(a.mass)) -
         (isNaN(Number(b.mass)) ? -Infinity : Number(b.mass)),
       multiple: 4,
@@ -128,7 +131,7 @@ const columns = [
     dataIndex: 'created',
     key: 'created',
     sorter: {
-      compare: (a: Person, b: Person) =>
+      compare: (a: PersonTableModel, b: PersonTableModel) =>
         compareAsc(new Date(a.created), new Date(b.created)),
       multiple: 1,
     },
@@ -138,22 +141,22 @@ const columns = [
     dataIndex: 'edited',
     key: 'edited',
     sorter: {
-      compare: (a: Person, b: Person) =>
+      compare: (a: PersonTableModel, b: PersonTableModel) =>
         compareAsc(new Date(a.edited), new Date(b.edited)),
       multiple: 2,
     },
   },
   {
     title: 'Homeworld',
-    dataIndex: 'homeworld',
-    key: 'homeworld',
+    dataIndex: 'homeworldName',
+    key: 'homeworldName',
     sorter: {
-      compare: (a: Person, b: Person) => a.homeworld.localeCompare(b.homeworld),
+      compare: (a: PersonTableModel, b: PersonTableModel) => a.homeworldName.localeCompare(b.homeworldName),
       multiple: 6,
     },
     customFilterDropdown: true,
-    onFilter: (value: string, record: Person) =>
-      record.homeworld.toString().toLowerCase().includes(value.toLowerCase()),
+    onFilter: (value: string, record: PersonTableModel) =>
+      record.homeworldName.toString().toLowerCase().includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: (visible: boolean) => {
       if (visible) {
         setTimeout(() => {
@@ -166,27 +169,10 @@ const columns = [
 
 const innerColumns = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
-  { title: 'Diameter', key: 'state' },
-  { title: 'Climate', dataIndex: 'upgradeNum', key: 'upgradeNum' },
-  { title: 'Population', dataIndex: 'upgradeNum', key: 'upgradeNum' },
+  { title: 'Diameter', dataIndex: 'diameter', key: 'diameter' },
+  { title: 'Climate', dataIndex: 'climate', key: 'climate' },
+  { title: 'Population', dataIndex: 'population', key: 'population' },
 ]
-
-interface innerDataItem {
-  key: number
-  date: string
-  name: string
-  upgradeNum: string
-}
-
-const innerData: innerDataItem[] = []
-for (let i = 0; i < 3; i = i + 1) {
-  innerData.push({
-    key: i,
-    date: '2014-12-24 23:12:00',
-    name: `This is production name ${i + 1}`,
-    upgradeNum: 'Upgraded: 56',
-  })
-}
 
 export default defineComponent({
   components: {
@@ -194,7 +180,7 @@ export default defineComponent({
     SearchOutlined,
   },
   setup() {
-    const { people, planets } = useEnrichedPeopleTableData()
+    const { people, planetDict } = useEnrichedPeopleTableData()
 
     const state = reactive({
       searchText: '',
@@ -218,10 +204,9 @@ export default defineComponent({
 
     return {
       people,
-      planets,
+      planetDict,
       columns,
       innerColumns,
-      innerData,
       handleSearch,
       handleReset,
     }

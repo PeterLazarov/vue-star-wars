@@ -1,14 +1,8 @@
+import { Planet } from '@/models/Planet'
 import { useInfiniteQuery } from 'vue-query'
 
 const defaultUrl = 'https://swapi.dev/api/planets'
 
-export interface Planet {
-  name: string
-  gravity: string
-  terrain: string
-  population: string
-  url: string
-}
 interface FindResult {
   next: string
   previous: string
