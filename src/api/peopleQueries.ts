@@ -3,7 +3,7 @@ import { useInfiniteQuery } from 'vue-query'
 
 const defaultUrl = 'https://swapi.dev/api/people'
 
-interface Person {
+export interface Person {
   name: string
   height: string
   birth_year: string
@@ -13,7 +13,7 @@ interface FindResult {
   next: string
   previous: string
   count: number,
-  data: Person[]
+  results: Person[]
 }
 
 interface PeopleFetchParams {
@@ -22,7 +22,7 @@ interface PeopleFetchParams {
 
 // eslint-disable-next-line arrow-body-style
 const fetchPeople = ({ pageParam = defaultUrl }: PeopleFetchParams): Promise<FindResult> => {
-  return fetch(pageParam).then((response) => response.json())
+  return fetch(pageParam).then(response => response.json())
 }
 
 export const usePeopleFindInifite = () => {
@@ -32,11 +32,12 @@ export const usePeopleFindInifite = () => {
       return prevPage.next
     },
     onSuccess(res) {
+      // @ts-ignore
       const lastPage = res.pages.at(-1)
       if (lastPage && lastPage.next) {
         result.fetchNextPage.value()
       }
-    }
+    },
   })
   return result
 }
