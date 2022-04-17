@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { useInfiniteQuery } from 'vue-query'
 
 const defaultUrl = 'https://swapi.dev/api/people'
@@ -8,11 +7,13 @@ export interface Person {
   height: string
   birth_year: string
   gender: string
+  homeworld: string
+  url: string
 }
 interface FindResult {
   next: string
   previous: string
-  count: number,
+  count: number
   results: Person[]
 }
 
@@ -20,13 +21,13 @@ interface PeopleFetchParams {
   pageParam?: string
 }
 
-// eslint-disable-next-line arrow-body-style
-const fetchPeople = ({ pageParam = defaultUrl }: PeopleFetchParams): Promise<FindResult> => {
+const fetchPeople = ({
+  pageParam = defaultUrl,
+}: PeopleFetchParams): Promise<FindResult> => {
   return fetch(pageParam).then(response => response.json())
 }
 
 export const usePeopleFindInifite = () => {
-// eslint-disable-next-line implicit-arrow-linebreak
   const result = useInfiniteQuery<FindResult>('peopleFind', fetchPeople, {
     getNextPageParam(prevPage) {
       return prevPage.next
@@ -38,6 +39,8 @@ export const usePeopleFindInifite = () => {
         result.fetchNextPage.value()
       }
     },
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false
   })
   return result
 }

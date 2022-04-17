@@ -1,18 +1,43 @@
-import { useQuery } from 'vue-query'
+import { useInfiniteQuery } from 'vue-query'
 
 const defaultUrl = 'https://swapi.dev/api/planets'
 
-interface Planet {
+export interface Planet {
   name: string
   gravity: string
   terrain: string
   population: string
-}
-
-interface PlanetGetParams {
   url: string
 }
-const planetGetQuery = async ({ url = defaultUrl }: PlanetGetParams): Promise<Planet> => fetch(url)
-  .then((response) => response.json())
+interface FindResult {
+  next: string
+  previous: string
+  count: number
+  results: Planet[]
+}
 
-export const usePlanetGet = (params: PlanetGetParams) => useQuery('planetGet', () => planetGetQuery(params))
+interface PlanetFetchParams {
+  pageParam?: string
+}
+const planetFetch = async ({
+  pageParam = defaultUrl,
+}: PlanetFetchParams): Promise<FindResult> =>
+  fetch(pageParam).then(response => response.json())
+
+export const usePlanetFindInifite = () => {
+  const result = useInfiniteQuery<FindResult>('planetFind', planetFetch, {
+    getNextPageParam(prevPage) {
+      return prevPage.next
+    },
+    onSuccess(res) {
+      // @ts-ignore
+      const lastPage = res.pages.at(-1)
+      if (lastPage && lastPage.next) {
+        result.fetchNextPage.value()
+      }
+    },
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false
+  })
+  return result
+}
