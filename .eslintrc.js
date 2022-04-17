@@ -18,5 +18,8 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/camelcase': 'off',
     camelcase: 'off',
+    'max-len': 'off',
+    semi: ['error', 'never'],
+    'arrow-body-style': ['error', 'never'],
   },
-};
+}

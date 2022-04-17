@@ -1,6 +1,6 @@
-import { useQuery } from 'vue-query';
+import { useQuery } from 'vue-query'
 
-const url = 'https://swapi.dev/api/planets';
+const defaultUrl = 'https://swapi.dev/api/planets'
 
 interface Planet {
   name: string
@@ -10,9 +10,9 @@ interface Planet {
 }
 
 interface PlanetGetParams {
-  planetId: number
+  url: string
 }
-const planetGetQuery = async ({ planetId }: PlanetGetParams): Promise<Planet[]> => fetch(`${url}/${planetId}`)
-  .then((response) => response.json());
+const planetGetQuery = async ({ url = defaultUrl }: PlanetGetParams): Promise<Planet> => fetch(url)
+  .then((response) => response.json())
 
-export const usePlanetGet = (params: PlanetGetParams) => useQuery('planetGet', () => planetGetQuery(params));
+export const usePlanetGet = (params: PlanetGetParams) => useQuery('planetGet', () => planetGetQuery(params))

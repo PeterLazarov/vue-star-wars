@@ -1,2 +1,2 @@
-export * from './peopleQueries';
-export * from './planetQueries';
+export * from './peopleQueries'
+export * from './planetQueries'
