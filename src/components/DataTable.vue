@@ -1,5 +1,8 @@
 <template>
-  <a-table :columns="columns" :data-source="people" rowKey="url">
+  <a-table :columns="columns" :data-source="people" rowKey="url" :customHeaderRow="customHeaderRow" :customRow="customRow">
+    <template #headerCell="{title}">
+      <span style="color: #ffffff">{{title}}</span>
+    </template>
     <template
       #customFilterDropdown="{
         setSelectedKeys,
@@ -46,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { DownOutlined, SearchOutlined } from '@ant-design/icons-vue'
+import { DownOutlined, SearchOutlined, GlobalOutlined } from '@ant-design/icons-vue'
 import { defineComponent, reactive, ref } from 'vue'
 import { useEnrichedPeopleTableData } from '@/hooks'
 import { PersonTableModel } from '@/models'
@@ -153,6 +156,7 @@ export default defineComponent({
   components: {
     DownOutlined,
     SearchOutlined,
+    GlobalOutlined,
   },
   setup() {
     const { people, planetDict } = useEnrichedPeopleTableData()
@@ -177,6 +181,13 @@ export default defineComponent({
       state.searchText = ''
     }
 
+    const customHeaderRow = () => {
+      return { style: { background: '#D1D1D1'} }
+    };
+    const customRow = () => {
+      return { style: { background: '#fff'} }
+    }
+
     return {
       people,
       planetDict,
@@ -184,7 +195,15 @@ export default defineComponent({
       innerColumns,
       handleSearch,
       handleReset,
+      customHeaderRow,
+      customRow,
     }
   },
 })
 </script>
+
+<style>
+.ant-table-thead>tr>th.ant-table-cell {
+  background-color: transparent;
+}
+</style>
