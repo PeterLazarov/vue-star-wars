@@ -143,7 +143,7 @@ const columns = [
 ]
 
 const innerColumns = [
-  { title: 'Name', dataIndex: 'name', key: 'name' },
+  { title: 'Planet Name', dataIndex: 'name', key: 'name' },
   { title: 'Diameter', dataIndex: 'diameter', key: 'diameter' },
   { title: 'Climate', dataIndex: 'climate', key: 'climate' },
   { title: 'Population', dataIndex: 'population', key: 'population' },
