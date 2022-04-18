@@ -19,7 +19,7 @@ export default defineComponent({
 </script>
 
 <style>
-  .page {
-    padding-top: 10px;
-  }
+.page {
+  padding-top: 10px;
+}
 </style>

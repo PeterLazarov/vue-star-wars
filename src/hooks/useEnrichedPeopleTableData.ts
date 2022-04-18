@@ -1,13 +1,10 @@
-import {
-  usePlanetFindInifite,
-  usePeopleFindInifite,
-} from '@/api'
+import { usePlanetFindInifite, usePeopleFindInifite } from '@/api'
 import { computed, ComputedRef } from 'vue'
 import { format } from 'date-fns'
 import { Person, PersonTableModel, Planet } from '@/models'
 interface PeopleTableData {
   people: ComputedRef<PersonTableModel[]>
-  planetDict: ComputedRef<Record<string,Planet>>
+  planetDict: ComputedRef<Record<string, Planet>>
 }
 export const useEnrichedPeopleTableData = (): PeopleTableData => {
   const { data: planetData } = usePlanetFindInifite()

@@ -15,8 +15,7 @@
     "debounce": "^1.2.1",
     "vue": "^3.2.13",
     "vue-query": "^1.22.3",
-    "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "vue-router": "^4.0.3"
   },
   "devDependencies": {
     "@types/core-js": "^2.5.5",

@@ -1,9 +1,5 @@
 <template>
-  <a-table
-    :columns="columns"
-    :data-source="people"
-    rowKey="url"
-  >
+  <a-table :columns="columns" :data-source="people" rowKey="url">
     <template
       #customFilterDropdown="{
         setSelectedKeys,
@@ -30,10 +26,7 @@
           <template #icon><SearchOutlined /></template>
           Search
         </a-button>
-        <a-button
-          style="width: 90px"
-          @click="handleReset(clearFilters)"
-        >
+        <a-button style="width: 90px" @click="handleReset(clearFilters)">
           Reset
         </a-button>
       </div>
@@ -67,7 +60,8 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     sorter: {
-      compare: (a: PersonTableModel, b: PersonTableModel) => a.name.localeCompare(b.name),
+      compare: (a: PersonTableModel, b: PersonTableModel) =>
+        a.name.localeCompare(b.name),
     },
     customFilterDropdown: true,
     onFilter: (value: string, record: PersonTableModel) =>
@@ -128,12 +122,16 @@ const columns = [
     dataIndex: 'homeworldName',
     key: 'homeworldName',
     sorter: {
-      compare: (a: PersonTableModel, b: PersonTableModel) => a.homeworldName.localeCompare(b.homeworldName),
+      compare: (a: PersonTableModel, b: PersonTableModel) =>
+        a.homeworldName.localeCompare(b.homeworldName),
       multiple: 6,
     },
     customFilterDropdown: true,
     onFilter: (value: string, record: PersonTableModel) =>
-      record.homeworldName.toString().toLowerCase().includes(value.toLowerCase()),
+      record.homeworldName
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: (visible: boolean) => {
       if (visible) {
         setTimeout(() => {

@@ -4,20 +4,20 @@
 </template>
 
 <script>
-import { ConfigProvider } from 'ant-design-vue';
+import { ConfigProvider } from 'ant-design-vue'
 import { Header, DataTable } from '@/components'
 
 ConfigProvider.config({
   theme: {
     primaryColor: '#2D4263',
   },
-});
+})
 
 export default {
   name: 'App',
   components: {
-    Header
-  }
+    Header,
+  },
 }
 </script>
 
