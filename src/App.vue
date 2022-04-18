@@ -5,7 +5,7 @@
 
 <script>
 import { ConfigProvider } from 'ant-design-vue'
-import { Header, DataTable } from '@/components'
+import { Header } from '@/components'
 
 ConfigProvider.config({
   theme: {
@@ -28,7 +28,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: #F1EDEE;
+  background: #f1edee;
   height: 100%;
 }
 </style>

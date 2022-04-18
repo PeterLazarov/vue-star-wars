@@ -1,8 +1,5 @@
 <template>
-  <a-table :columns="columns" :data-source="people" rowKey="url" :customHeaderRow="customHeaderRow" :customRow="customRow">
-    <template #headerCell="{title}">
-      <span style="color: #ffffff">{{title}}</span>
-    </template>
+  <a-table :columns="columns" :data-source="people" rowKey="url">
     <template
       #customFilterDropdown="{
         setSelectedKeys,
@@ -13,23 +10,23 @@
       }"
     >
       <div style="padding: 8px">
-        <a-input
+        <input
           ref="searchInput"
           :placeholder="`Search ${column.dataIndex}`"
           :value="selectedKeys[0]"
-          style="width: 188px; margin-bottom: 8px; display: block"
+          class="search-input"
           @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
           @pressEnter="handleSearch(selectedKeys, confirm, column.dataIndex)"
         />
         <a-button
           type="primary"
-          style="width: 90px; margin-right: 8px"
+          class="search-button"
           @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
         >
           <template #icon><SearchOutlined /></template>
           Search
         </a-button>
-        <a-button style="width: 90px" @click="handleReset(clearFilters)">
+        <a-button class="reset-button" @click="handleReset(clearFilters)">
           Reset
         </a-button>
       </div>
@@ -49,8 +46,13 @@
 </template>
 
 <script lang="ts">
-import { DownOutlined, SearchOutlined, GlobalOutlined } from '@ant-design/icons-vue'
+import {
+  DownOutlined,
+  SearchOutlined,
+  GlobalOutlined,
+} from '@ant-design/icons-vue'
 import { defineComponent, reactive, ref } from 'vue'
+
 import { useEnrichedPeopleTableData } from '@/hooks'
 import { PersonTableModel } from '@/models'
 import { compareAsc } from 'date-fns'
@@ -72,7 +74,7 @@ const columns = [
     onFilterDropdownVisibleChange: (visible: boolean) => {
       if (visible) {
         setTimeout(() => {
-          searchInput.value.focus()
+          searchInput.value?.focus()
         }, 100)
       }
     },
@@ -138,7 +140,7 @@ const columns = [
     onFilterDropdownVisibleChange: (visible: boolean) => {
       if (visible) {
         setTimeout(() => {
-          searchInput.value.focus()
+          searchInput.value?.focus()
         }, 100)
       }
     },
@@ -181,13 +183,6 @@ export default defineComponent({
       state.searchText = ''
     }
 
-    const customHeaderRow = () => {
-      return { style: { background: '#D1D1D1'} }
-    };
-    const customRow = () => {
-      return { style: { background: '#fff'} }
-    }
-
     return {
       people,
       planetDict,
@@ -195,15 +190,22 @@ export default defineComponent({
       innerColumns,
       handleSearch,
       handleReset,
-      customHeaderRow,
-      customRow,
     }
   },
 })
 </script>
 
 <style>
-.ant-table-thead>tr>th.ant-table-cell {
-  background-color: transparent;
+.search-input {
+  width: 188px;
+  margin-bottom: 8px;
+  display: block;
+}
+.search-button {
+  width: 90px;
+  margin-right: 8px;
+}
+.reset-button {
+  width: 90px;
 }
 </style>
