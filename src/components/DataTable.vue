@@ -200,6 +200,7 @@ export default defineComponent({
   width: 188px;
   margin-bottom: 8px;
   display: block;
+  background-color: #2d4263;
 }
 .search-button {
   width: 90px;
