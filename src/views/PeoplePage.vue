@@ -1,21 +1,25 @@
 <template>
-  <div class="content">
-    <div class="header">
-      <HeadTitle title="People" />
-    </div>
+  <div class="page">
+    <PageTitle title="People" />
     <DataTable />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { HeadTitle, DataTable } from '@/components'
+import { PageTitle, DataTable } from '@/components'
 
 export default defineComponent({
   name: 'PeopleView',
   components: {
-    HeadTitle,
+    PageTitle,
     DataTable,
   },
 })
 </script>
+
+<style>
+  .page {
+    padding-top: 10px;
+  }
+</style>

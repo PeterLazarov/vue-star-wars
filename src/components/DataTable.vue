@@ -3,7 +3,6 @@
     :columns="columns"
     :data-source="people"
     rowKey="url"
-    class="components-table-demo-nested"
   >
     <template
       #customFilterDropdown="{
@@ -25,7 +24,6 @@
         />
         <a-button
           type="primary"
-          size="small"
           style="width: 90px; margin-right: 8px"
           @click="handleSearch(selectedKeys, confirm, column.dataIndex)"
         >
@@ -33,34 +31,12 @@
           Search
         </a-button>
         <a-button
-          size="small"
           style="width: 90px"
           @click="handleReset(clearFilters)"
         >
           Reset
         </a-button>
       </div>
-    </template>
-    <template #bodyCell="{ text, column }">
-      <span v-if="searchText && searchedColumn === column.dataIndex">
-        <template
-          v-for="(fragment, i) in text
-            .toString()
-            .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
-        >
-          <mark
-            v-if="fragment.toLowerCase() === searchText.toLowerCase()"
-            :key="i"
-            class="highlight"
-          >
-            {{ fragment }}
-          </mark>
-          <template v-else>{{ fragment }}</template>
-        </template>
-      </span>
-      <template v-else>
-        {{ text }}
-      </template>
     </template>
     <template #customFilterIcon="{ filtered }">
       <search-outlined :style="{ color: filtered ? '#108ee9' : undefined }" />
@@ -75,6 +51,7 @@
     </template>
   </a-table>
 </template>
+
 <script lang="ts">
 import { DownOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import { defineComponent, reactive, ref } from 'vue'
